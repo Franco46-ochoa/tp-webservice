@@ -1,1 +1,48 @@
-<p>text-to-speech works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-5 mx-auto">
+      <div class="card bg-dark text-white p-4 shadow-lg border-secondary">
+        <h2 class="text-warning mb-3 d-flex align-items-center gap-2 fs-3">
+          <i class="bi bi-megaphone"></i> OpenAI Texto a Voz
+        </h2>
+        <p class="text-muted small">Escribe un texto, selecciona una voz de OpenAI y genera el archivo de audio mediante el WebService.</p>
+
+        <div class="mb-3">
+          <label class="form-label text-warning small fw-bold">TEXTO A PROCESAR</label>
+          <textarea class="form-control bg-secondary text-white border-secondary py-2"
+                    rows="5"
+                    placeholder="Escribe aquí tu texto..."
+                    [(ngModel)]="texto"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-warning small fw-bold">PERFIL DE VOZ</label>
+          <select class="form-select bg-secondary text-white border-secondary py-2"
+                  [(ngModel)]="vozSeleccionada">
+            @for (voz of vocesOpciones; track voz.value) {
+              <option [value]="voz.value">{{ voz.label }}</option>
+            }
+          </select>
+        </div>
+
+        <button class="btn btn-warning w-100 fw-bold py-2 mb-3 text-dark"
+                (click)="generarAudio()"
+                [disabled]="cargando() || !texto.trim()">
+          @if (cargando()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span> Procesando Audio...
+          } @else {
+            <i class="bi bi-play-circle me-2"></i> Generar Audio
+          }
+        </button>
+
+        @if (audioUrl()) {
+          <div class="mt-3 p-3 bg-secondary bg-opacity-10 rounded text-center border border-secondary shadow-inner">
+            <small class="text-muted d-block text-uppercase tracking-wider mb-2">Reproductor Multimedia Oficial</small>
+            <audio controls class="w-100 mt-1" [src]="audioUrl()"></audio>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>

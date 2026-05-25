@@ -1,1 +1,100 @@
-<p>car-maker works!</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 mx-auto">
+            
+            <div class="card bg-dark text-white p-4 shadow-lg border-secondary">
+                <h2 class="text-warning mb-3 d-flex align-items-center gap-2 fs-3">
+                    <i class="bi bi-building"></i> Fabricantes de Autos
+                </h2>
+                <p class="text-muted small">Selecciona una marca para desplegar su catálogo oficial de modelos desde el servidor.</p>
+                
+                <ul class="list-group style-scroll" style="max-height: 500px; overflow-y: auto;">
+                    @for (marca of marcas(); track marca.id) {
+                        <li class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center" 
+                            style="cursor: pointer;"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modelosModal" 
+                            (click)="verModelos(marca.id)">
+                            
+                            <span class="fw-bold">{{ marca.name }}</span>
+                            <span class="badge bg-secondary rounded-pill font-monospace small">ID: {{ marca.id }}</span>
+                        </li>
+                    } @empty {
+                        <li class="list-group-item list-group-item-dark text-center py-4">
+                            <div class="spinner-border text-warning mb-2" role="status"></div>
+                            <p class="mb-0 text-muted">Estableciendo conexión con RapidAPI...</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modelosModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content bg-dark text-white border-secondary">
+            
+            <div class="modal-header border-secondary bg-secondary bg-opacity-25">
+                <h5 class="modal-title text-warning d-flex align-items-center gap-2">
+                    <i class="bi bi-car-front-fill"></i> Catálogo de Modelos
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body bg-dark">
+                <div class="accordion accordion-flush" id="acordeonModelos">
+                    
+                    @for (modelo of modelos(); track modelo.id) {
+                        <div class="accordion-item bg-secondary text-white mb-2 border-0 rounded">
+                            
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-secondary text-white fw-bold d-flex justify-content-between align-items-center" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        [attr.data-bs-target]="'#collapse-' + modelo.id">
+                                    <span>{{ modelo.name }}</span>
+                                </button>
+                            </h2>
+                            
+                            <div [id]="'collapse-' + modelo.id" 
+                                 class="accordion-collapse collapse" 
+                                 data-bs-parent="#acordeonModelos">
+                                <div class="accordion-body bg-dark text-light border-top border-secondary">
+                                    <div class="row g-2 font-monospace small">
+                                        <div class="col-6">
+                                            <span class="text-muted d-block">MODEL ID:</span>
+                                            <span class="text-warning">{{ modelo.id }}</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="text-muted d-block">ESTADO:</span>
+                                            <span class="text-success">Disponible</span>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <div class="p-2 bg-secondary bg-opacity-10 rounded text-center text-muted border border-secondary border-opacity-50">
+                                                Estructura certificada por CarSpecsDto
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    } @empty {
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-warning mb-3" role="status"></div>
+                            <p class="mb-0 text-muted fs-6">Descargando especificaciones técnicas...</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            
+            <div class="modal-footer border-secondary bg-secondary bg-opacity-10">
+                <button type="button" class="btn btn-outline-warning btn-sm px-4" data-bs-dismiss="modal">Cerrar Catálogo</button>
+            </div>
+
+        </div>
+    </div>
+</div>

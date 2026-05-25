@@ -1,1 +1,45 @@
-<p>conversor-divisas works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-5 mx-auto">
+      <div class="card bg-dark text-white p-4 shadow-lg border-secondary">
+        <h2 class="text-warning mb-3 d-flex align-items-center gap-2 fs-3">
+          <i class="bi bi-currency-exchange"></i> Conversor de Divisas
+        </h2>
+        <p class="text-muted small">Ingresa un monto y selecciona las monedas para calcular la conversión en tiempo real.</p>
+
+        <div class="mb-3">
+          <label class="form-label text-warning small fw-bold">MONTO</label>
+          <input type="number" class="form-control bg-secondary text-white border-secondary" placeholder="0.00" [ngModel]="monto()" (ngModelChange)="onMontoChange($event)" min="0" step="0.01">
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-6">
+            <label class="form-label text-warning small fw-bold">MONEDA ORIGEN (Código)</label>
+            <input type="text" class="form-control bg-secondary text-white border-secondary text-uppercase mb-2" placeholder="Ej: USD" [ngModel]="codigoOrigen()" (ngModelChange)="onCodigoOrigenChange($event)" maxlength="5">
+            <label class="form-label text-muted small">O elige de la lista:</label>
+            <select class="form-select bg-secondary text-white border-secondary" [ngModel]="monedaOrigen()" (ngModelChange)="onMonedaOrigenChange($event)">
+              @for (moneda of monedasDisponibles(); track moneda) {
+                <option [value]="moneda">{{ moneda }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label text-warning small fw-bold">MONEDA DESTINO (Código)</label>
+            <input type="text" class="form-control bg-secondary text-white border-secondary text-uppercase mb-2" placeholder="Ej: EUR" [ngModel]="codigoDestino()" (ngModelChange)="onCodigoDestinoChange($event)" maxlength="5">
+            <label class="form-label text-muted small">O elige de la lista:</label>
+            <select class="form-select bg-secondary text-white border-secondary" [ngModel]="monedaDestino()" (ngModelChange)="onMonedaDestinoChange($event)">
+              @for (moneda of monedasDisponibles(); track moneda) {
+                <option [value]="moneda">{{ moneda }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="p-3 bg-secondary bg-opacity-25 rounded border border-secondary text-center">
+          <p class="text-muted small mb-1">RESULTADO</p>
+          <h3 class="text-warning mb-0 font-monospace">{{ resultadoFormateado() }} {{ monedaDestino() }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

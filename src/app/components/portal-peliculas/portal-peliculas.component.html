@@ -6,22 +6,17 @@
         <div class="card bg-dark text-white w-100">
           <img
             [src]="peli.image"
-            (error)="
-              $any($event.target).src =
-                'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?q=80&w=500'
-            "
+            (error)="$any($event.target).src='https://images.unsplash.com/photo-1594909122845-11baa439b7bf?q=80&w=500'"
             class="card-img-top"
             alt="Imagen de la película"
             style="height: 350px; object-fit: cover"
           />
-
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ peli.title }}</h5>
             <p class="card-text flex-grow-1">{{ peli.description }}</p>
             <div class="mt-2">
               <p class="card-text mb-2">
-                <small class="text-warning"
-                  >Año de estreno: <strong>{{ peli.year }}</strong></small>
+                <small class="text-warning">Año de estreno: <strong>{{ peli.year }}</strong></small>
               </p>
               <div class="d-flex flex-wrap gap-1">
                 <small class="text-muted me-1 align-self-center">Géneros:</small>

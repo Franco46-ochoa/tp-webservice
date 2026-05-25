@@ -1,1 +1,57 @@
-<p>api-libre works!</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 mx-auto">
+            
+            <div class="card bg-dark text-white p-4 shadow-lg border-secondary">
+                <h2 class="text-warning mb-3 d-flex align-items-center gap-2 fs-3">
+                    <i class="bi bi-qr-code-scan"></i> Generador de Códigos QR
+                </h2>
+                <p class="text-muted small">Escribe un texto, mensaje o enlace URL en el formulario para procesarlo mediante el WebService.</p>
+                
+                <div class="mb-3">
+                    <label class="form-label text-warning small fw-bold">Texto o Enlace URL</label>
+                    <input type="text" class="form-control bg-secondary text-white border-0 py-2" 
+                           [ngModel]="textoIngresado()" 
+                           (ngModelChange)="textoIngresado.set($event)"
+                           placeholder="Ej: https://www.unju.edu.ar">
+                </div>
+
+                <div class="row g-2 mb-4">
+                    <div class="col-6">
+                        <button class="btn btn-outline-danger w-100 py-2 fw-bold" (click)="limpiarFormulario()">
+                            <i class="bi bi-trash3-fill"></i> Limpiar
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-warning w-100 py-2 fw-bold text-dark" 
+                                [disabled]="!textoIngresado().trim()" 
+                                (click)="generarQR()">
+                            <i class="bi bi-gear-fill me-1"></i> Generar
+                        </button>
+                    </div>
+                </div>
+
+                @if (cargando()) {
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-warning" role="status"></div>
+                        <p class="mt-2 text-muted small mb-0">Procesando código QR...</p>
+                    </div>
+                } @else if (qrResultadoUrl()) {
+                    <div class="p-3 bg-secondary bg-opacity-10 rounded text-center border border-secondary">
+                        <small class="text-muted d-block text-uppercase tracking-wider mb-3">Salida del WebService</small>
+                        
+                        <div class="bg-white p-3 d-inline-block rounded shadow mb-2">
+                            <img [src]="qrResultadoUrl()" alt="Código QR Dinámico" class="img-fluid" style="max-width: 200px;">
+                        </div>
+                        
+                        <small class="d-block text-warning font-monospace mt-2 text-truncate px-2">
+                            {{ textoIngresado() }}
+                        </small>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
